@@ -1,0 +1,21 @@
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build -t myapp:latest .
+
+    - name: Run container
+      run: |
+        docker run -d --name test-container myapp:latest
+        sleep 5
+
+    - name: Check container status
+      run: docker ps -a | grep test-container
+
+    - name: Cleanup
+      if: always()
+      run: docker rm -f test-container
