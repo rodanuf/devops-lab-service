@@ -33,7 +33,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 10022
+        port: ${{ secrets.SSH_PORT }}
         debug: true
         script: |
           cd /srv/company/projects/lab_service
