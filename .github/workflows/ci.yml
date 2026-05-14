@@ -31,12 +31,7 @@ jobs:
     - name: Deploy to VM via SSH
       shell: cmd
       run: |
-        $PORT = "${{ secrets.VM_PORT }}"
-        $USER = "${{ secrets.VM_USER }}"
-        $IP = "${{ secrets.VM_IP }}"
-        $KEY = "C:\Users\Admin\.ssh\vm_deploy_key"
-        
-        ssh -o StrictHostKeyChecking=no -i $KEY -p $PORT "$USER@$IP"
+        ssh -o StrictHostKeyChecking=no -i "C:\Users\Admin\.ssh\vm_deploy_key" -p 10022 user@127.0.0.1
         "cd /srv/company/projects/lab_service/devops-lab-service &&
          git pull origin main && docker compose down &&
          docker compose up -d --build &&
