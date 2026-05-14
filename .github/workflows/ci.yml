@@ -21,24 +21,25 @@ jobs:
 
   deploy:
     needs: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
-    - name: Deploy to server
+
+    - name: Deploy to VM via SSH
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        debug: true
+        host: ${{ secrets.VM_IP }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
+        port: ${{ secrets.VM_PORT }}
         script: |
-          cd /srv/company/projects/lab_service
-          git pull origin master
+          cd /srv/company/projects/lab_service/devops-lab-service
+          git pull origin main
           docker compose down
           docker compose up -d --build
           docker system prune -f
-
+          echo "Deployment completed!"
+          docker ps
