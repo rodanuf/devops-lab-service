@@ -31,10 +31,13 @@ jobs:
     - name: Deploy to VM via SSH
       shell: cmd
       run: |
-        ssh -o StrictHostKeyChecking=no -i "C:\Users\Admin\.ssh\vm_deploy_key" -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} "
-          cd /srv/company/projects/lab_service/devops-lab-service &&
-          git pull origin main &&
-          docker compose down &&
-          docker compose up -d --build &&
-          docker system prune -f
-        "
+        $PORT = "${{ secrets.VM_PORT }}"
+        $USER = "${{ secrets.VM_USER }}"
+        $IP = "${{ secrets.VM_IP }}"
+        $KEY = "C:\Users\Admin\.ssh\vm_deploy_key"
+        
+        ssh -o StrictHostKeyChecking=no -i $KEY -p $PORT "$USER@$IP"
+        "cd /srv/company/projects/lab_service/devops-lab-service &&
+         git pull origin main && docker compose down &&
+         docker compose up -d --build &&
+         docker system prune -f"
