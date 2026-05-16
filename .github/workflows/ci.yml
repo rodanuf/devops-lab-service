@@ -34,6 +34,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i "C:\Users\Admin\.ssh\vm_deploy_key" -p 10022 admin@127.0.0.1 `
         "cd /srv/company/projects/lab_service/devops-lab-service ; `
          git pull origin main ; `
-         docker compose down ; `
-         docker compose up -d --build ; `
+         docker-compose down ; `
+         docker-compose up -d --build ; `
          docker system prune -f"
